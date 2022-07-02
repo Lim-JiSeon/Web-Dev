@@ -1,2 +1,1 @@
-# Web-Dev
-front-end study
+# Web Development
