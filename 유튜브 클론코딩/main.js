@@ -1,9 +1,7 @@
 const moreBtn = document.querySelector('.info .metadata .moreBtn');
 const title = document.querySelector('.info .metadata .title');
 const subscribeBtn = document.querySelector('.channel .subscribe');
-const upBtn = document.getElementById("fas fa-thumbs-up")
-const downBtn = document.getElementById("fas fa-thumbs-down")
-
+const first = document.querySelector('#first')
 
 moreBtn.addEventListener('click', () => {
     moreBtn.classList.toggle('clicked');
@@ -16,35 +14,29 @@ subscribeBtn.addEventListener('click', () => {
     } else subscribeBtn.innerText ='SUBSCIBE';
 });
 
+first.addEventListener('click', () => {
+    window.location.href = 'http://127.0.0.1:5500/sub1.html'
+});
+
+/*
 let check = true;
+let number1 = upBtn.innerText;
+let number2 = downBtn.innerText;
+const upBtn = document.querySelector("#upBtn");
+const downBtn = document.getElementById("downBtn");
+
 upBtn.addEventListener('click', () => {
-    let number = upBtn.innerText;
-    if(up) {
-        number = parseInt(number) + 1;
-        check = false;
-        upBtn.innerText = number;
-        upBtn.style.background = '#045fd4';
-        downBtn.style.background = '#909090';
-    } else {
-        number = parseInt(number) - 1;
-        upBtn.innerText = number;
-        check = true;
-        upBtn.style.background = '#909090';
-    }
+    document.getElementById("up").textContent= 'hello';
 });
 
 downBtn.addEventListener('click', () => {
-    let number = upBtn.innerText;
     if(check) {
-        number = parseInt(number) + 1;
         check = false;
-        downBtn.innerText = number;
-        downBtn.style.background = '#045fd4';
-        upBtn.style.background = '#909090';
+        downBtn.innerText = parseInt(number2) + 1;
     } else {
-        number = parseInt(number) - 1;
-        downBtn.innerText = number;
         check = true;
-        downBtn.style.background = '#909090';
+        downBtn.innerText = parseInt(number2) - 1;
     }
+    downBtn.innerText = toString(number2);
 });
+*/
