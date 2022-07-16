@@ -2,9 +2,9 @@
 
 ## Content
 1. [create-react-app](#create-react-app) 
-2. [react - Component](#react-Component)
-3. [state & props](#state&props)
-4. [react - event](#react-event)
+2. [react-Component](#react-component)
+3. [state&props](#state-props)
+4. [react-event](#react-event)
 
 
 
@@ -94,12 +94,27 @@
   > 명령어 : <b>" npm run start"</b><br>
   > 실행을 종료하고 싶을 때 : terminal에서 <b>"ctrl + C "</b><br>
 
+<br><br><br><hr>
+
+
+
 
 # react-Component
 
+### keyword
+<p><b>#</p></b>
+  
+- 양식
+  > 양식<br>
+  > 양식<br>
 
 
-# state&props
+<br><br><br><hr>
+
+
+
+
+# state props
 
 ### keyword
 <p><b>#props  #리팩토링</p></b>
@@ -117,15 +132,94 @@
 <p><b>#export  #import</p></b>
   
 - export
-  > HTML에서 속성이라고 하는 것을 리액트에서는 <b>"props"</b> 라고 한다.<br>
+  > 어떤 것을 외부에서 사용할 수 있도록 허용할 것인지를 결정 : <b>export default TOC;</b><br>
   > 약속된 jsx의 기호는 <b>{this.props.title}</b> 이다.<br> 
 
 - import
-  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
-  > 내부적으로 훨씬 효율적이다.<br> 
+  > "react" 라고 하는 라이브러리에서 "Componet" 라고하는 클래스를 로딩하는 방법 : <b>import React, { Component } from 'react';</b><br>
+  > <b>import [컴포넌트 이름] from "./componets/[컴포넌트가 있는 파일이름]";</b><br>
+  > 예시 :  import TOC from "./componets/TOC";<br>
 
+
+### keyword
+<p><b>#state  #props</p></b>
+  
+- state
+  > state를 비유적으로 말하면 제품을 만드는 사람이 제품의 내부적인 구현을 위해서, 다양한 상태들을 사용하기 위해서 다양한 내부 장치들이라고 할 수 있다.<br>
+  > props의 값에 따라 내부의 구현에 필요한 데이터들이라고 할 수 있다.<br>
+  > 리액트로 만든 컴포넌트가 좋은 부품이 되기 위해서는 props와 state는 철저하게 분리되어 있어야 한다.<br> 
+
+- props
+  > 사용자의 입장에서 장치는 버튼, 화면을 터치하는 것 같은 이 제품을 조작하는 것을 "User Interface" 라고 부른다. 리액트에서는 "props" 가 사용자가 제품을 조작하는 장치라고 비유할 수 있다.<br>
+  > 사용자가 컴포넌트를 사용하는 입장에서 중요한 것으로, "props" 를 제공하여 컴포넌트를 조작할 수 있게 된다.<br>
+
+
+### keyword
+<p><b>#constructor  #state  #props</p></b>
+  
+- constructor
+  > 컴포넌트가 실행될 때 constuructor 라는 함수가 render() 라고 하는 함수보다  먼저 실행되서 초기화를 담당한다.<br>
+  > "this.state={}" 라는 코드를 통해 "state" 값을 초기화한다.<br>
+    ```javascript
+        constructor (props){
+        super(props);
+        this.state = {
+          [이름] : { title : [값] , sub : [값] }
+        }
+      }
+    ```
+- state
+  > 코드 만을 통해 내부적으로 state값이 컴포넌트에 있는지 알 수 없으며, 이처럼 외부에서 알 필요가 없는 정보를 철저하게 은닉하는 것은 좋은 사용성을 만드는 핵심이다.<br>
+  > 상위 컴포넌트의 state 값을 하위 컴포넌트의 props의 값으로 전달하는 것은 얼마든지 가능하다.<br>
+
+- props
+  > "props"의 데이터는 state에서 가져온 것이 된다.<br>
+
+
+### keyword
+<p><b>#state  #property  #key</p></b>
+  
+- state
+  > 부모 입장에서는 state라고 하는 내부정보를 사용하고, 그것을 자식에게 전달할 때에는 props를 통해서 전달한다.<br>
+  > 부모 입장에서는 토픽이 내부적으로 어떻게 돌아가는지 알 필요가 없게 된다.<br>
+    ```javascript
+        constructor (props){
+        super(props);
+        this.state = {
+          subject : { title : 'WEB' , sub : 'World Wide Web!' }
+          contents : [
+            {id : 1 , title : 'HTML' , desc : 'HTML is for information'},
+            {id : 2 , title : 'CSS' , desc : 'CSS is for design'},
+            {id : 3 , title : 'JavaScript' , desc : 'JavaScript is for interactive'},
+          ] /*값이 여러개 일때에는 배열로*/
+        }
+      }
+    ```
+- property
+  > state 정보를 component에 전달(예시) : <TOC data={this.stat.contents}></TOC> -> <TOC> 컴포넌트에 "data" 라고 하는 props로 {this.state.contetnts} 를 주입한다.<br>
+  > <TOC> 컴포넌트는 내부적으로 this.props.data라고 하는 값을 갖게 된다.<br>
+
+- key
+  > 한가지 주의할 것은 엘리먼트 여러개를 자동으로 생성하는 경우에 콘솔 창에 에러가 발생한다.<br>
+  > 이 에러의 내용은 리스트 항목들은 key라고 하는 props를 가지고 있어야 한다는 의미로, key값을 주면 해결된다.<br>
+  > 여러 개의 목록을 자동으로 생성할 때에는 각각의 목록을 다른것 들과 구분할 수 있는 식별자를 key를 통해 적어줘야 한다.<br>
+  > key는 애플리케이션에서 사용한다기 보다는 리액트가 내부적으로 필요하기 때문에 요청하는 값이다<br>
+    ```javascript
+      lists.push( <li key={data[i].id}><a href={"/content"+data[i].id}>{data[i].title}</a></li>);
+      /* key = {datap[i].id} 라고 준 모습 */
+    ```
+
+<br><br><br><hr>
+  
 # react-event
 
+### keyword
+<p><b>#양식  #양식</p></b>
+  
+- 양식
+  > 양식
+- 양식
+  > 양식
 
 
 
