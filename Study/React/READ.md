@@ -141,91 +141,133 @@
 
 ## 디렉토리의 구조 이해 및 파일수정
 ### keyword
-<p><b>#React  #Component</p></b>
+<p><b>#Directory 구조</p></b>
   
-- React
-  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
-  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+- Directory 구조
+  > 크게 <b>"src"</b>와 <b>"public"</b> 디렉토리로 나눌 수 있으며, public 디렉토리 안에는 <b>"index.html"</b>이 있다.<br>
+  > create-react-app은 리액트를 통해 만들어낸 컴포넌트들을 id가 root인 태그 안에 들어가도록 설정했다.<br>
+    ```html
+    <div id="root"></div>
+    ```
+  > root 안에 들어가는 컴포넌트들은 <b>"src", 즉 source라고 되어 있는 디렉토리 안에 있는 파일</b>들을 수정해서 만들 수 있다.<br>
+  > entry 파일은 "index.js" 파일로 주목해야 할 코드는 다음과 같다.<br>
+  ```javascript
+    ReactDOM.render( <APP/> , document.getElementById('root') );
+  ```
+  > 이 root가 의미하는 것은 index.html 파일에서 본 id가 root인 태그로, 앞의 <App/>이 리액트를 통해 만든 사용자 정의 태그 즉 <b>컴포넌트</b>이다.<br>
+  ```javascript
+    import App from './App';
+  ```
+  > create-react-app이 sample로 만든 <App/> 컴포넌트의 실제 구현은 "import"를 통해 불러온 scr 안의 <b>App.js 파일</b>이다.<br>
 
-- Component  
-  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
-  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
-  > 유지보수가 훨씬 더 편리해진다.<br>
+- 컴포넌트 생성 방법
+  > 반드시 리액트는 하나의 태그 안 쪽에 나머지 태그들이 있어야 한다.<br>
+  > function type<br>
+
+  ```javascript
+    import React from 'react';
+    import './App.css';
+    function App() {
+        return (
+            <div className="App">
+
+            </div>
+        );
+    }
+    export default App;
+  ```
+        
+  > class type<br>
+
+  ```javascript
+    import React { Component } from 'react';
+    import './App.css';
+
+    class App extends Component {
+        render() {
+            return (
+                <div className="App">
+
+                </div>
+            );
+        }
+    }
+    export default App;
+  ```
 
 <br><br>
 
 ## CSS를 수정하여 컴포넌트의 디자인을 변경
 ### keyword
-<p><b>#React  #Component</p></b>
+<p><b>#css</p></b>
   
-- React
-  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
-  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+- css
+  > index.js 파일에 "index.css"라는 파일이 있는데 이 파일을 수정하면 된다.<br>
+  > import 뒤의 App이라는 이름과 컴포넌트 이름 App은 같아야 하며, 이 조건을 만족하면 수정 가능하다.<br>
+  > 하지만 import App from './App' 부분의 './App'은 변경하면 안되는데, 이 부분은 <b>파일의 이름</b>을 적는 부분으로 App.js를 의미하기 때문이다. js가 생략되어 표기된다.<br>
+    ```javascript
+    import App from './App';
 
-- Component  
-  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
-  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
-  > 유지보수가 훨씬 더 편리해진다.<br>
+    ReactDOM.render(<App/>,document.getElementById('root'));
+    ```
+  > App.js에 있는 이 코드는 App.js 안에 있는 react의 컴포넌트가 로드되었을 때 App.css도 로드될 수 있으며, 이를 통해 디자인을 같이 할 수 이게 된다.<br>
+  > 즉 App 이라고 하는 컴포넌트의 디자인을 App 안에 넣는 것이라고 생각하면 된다. 
+    ```javascript
+        import './App.css';
+    ```
+
+
 
 <br><br>
 
 ## deploy 이해_리액트 앱 배포
 ### keyword
-<p><b>#React  #Component</p></b>
+<p><b>#배포하는 법  #build  #serve</p></b>
   
-- React
-  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
-  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+- 배포하는 법
+  > 
 
-- Component  
-  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
-  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
-  > 유지보수가 훨씬 더 편리해진다.<br>
+- build
+  >  
+
+- serve
+  >
 
 <br><br>
 
 ## 리액트 필요성
 ### keyword
-<p><b>#React  #Component</p></b>
+<p><b>#시맨틱 태그  #리액트의 필요성</p></b>
   
-- React
-  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
-  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+- 시맨틱 태그
+  > 
 
-- Component  
-  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
-  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
-  > 유지보수가 훨씬 더 편리해진다.<br>
+- 리액트의 필요성
+  > 
 
 <br><br>
 
 ## 컴포넌트-만들기_1
 ### keyword
-<p><b>#React  #Component</p></b>
+<p><b>#컴포넌트  #jsx</p></b>
   
-- React
-  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
-  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+- 컴포넌트
+  > 
 
-- Component  
-  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
-  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
-  > 유지보수가 훨씬 더 편리해진다.<br>
+- jsx
+  > 
 
 <br><br>
 
 ## 컴포넌트-만들기_2
 ### keyword
-<p><b>#React  #Component</p></b>
+<p><b>#컴포넌트  #jsx</p></b>
   
-- React
-  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
-  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+- 컴포넌트
+  > 
 
-- Component  
-  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
-  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
-  > 유지보수가 훨씬 더 편리해진다.<br>
+- jsx
+  > 
 
 <br><br>
 
