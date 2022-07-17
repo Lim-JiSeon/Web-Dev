@@ -1,15 +1,43 @@
 # React Study
 
 ## Content
-1. [create-react-app](#create-react-app) 
-2. [react-Component](#react-component)
+1. [react-app](#create-react-app)
+    - 
+    - [React와 React 컴포넌트의 역할과 정의](#react와-react-컴포넌트의-역할과-정의)
+    - [SW를 만드는 과정인 코딩, 실행, deploy](#sw를-만드는-과정인-코딩-실행-deploy)
+    - [React 개발환경을 설치하고 개발환경을 구축](#react-개발환경을-설치하고-개발환경을-구축)
+    - [npm을 이용하여 create-react-app을 설치 / npm과 npx의 차이](#npm을-이용하여-create-react-app을-설치__npm과-npx의-차이)
+    - [create-react-app을 이용하여 개발환경을 구축](#create-react-app을-이용하여-개발환경을-구축)
+    - [React에서 제공하는 샘플 웹앱을 실행, 종료](#react에서-제공하는-샘플-웹앱을-실행하고-종료)
+
+
+2. [react Component](#react_component)
+    -
+    - [리액트의 디렉토리 구조를 이해, 이를 기반으로 파일수정](#디렉토리의-구조-이해-및-파일수정)
+    - [CSS를 수정하여 컴포넌트의 디자인을 변경](#css를-수정하여-컴포넌트의-디자인을-변경)
+    - [deploy 이해, create-react-app을 통한 리액트 앱 배포](#deploy-이해_리액트-앱-배포)
+    - [리액트 필요성](#리액트-필요성)
+    - [컴포넌트 만들기(1)](#컴포넌트-만들기_1)
+    - [컴포넌트 만들기(2)](#컴포넌트-만들기_2)
+
+
 3. [state&props](#state-props)
-4. [react-event](#react-event)
+    -
+    - [props 이해 및 활용](#props-이해)
+    - [컴포넌트를 파일로 쪼개어 정리정돈하기](#컴포넌트를-파일로-쪼개어-정리정돈하기)
+    - [state와 props를 분리](#state-소개)
+    - [state를 사용하는 법을 알고 상위 컴포넌트의 state 값을 하위 컴포넌트의 props 값으로 전달](#state-값을-하위-컴포넌트의-props로-전달)
+    - [key를 통해 식별자를 설정 및 상위 컴포넌트의 state 값을 하위 컴포넌트에 주입하여 자동으로 데이터를 변경](#key-설정-및-자동으로-데이터-변경)
+
+
+4. [react-event](#react_event)
+    - 
 
 
 
 # create-react-app
 
+## React와 React 컴포넌트의 역할과 정의
 ### keyword
 <p><b>#React  #Component</p></b>
   
@@ -22,7 +50,9 @@
   > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
   > 유지보수가 훨씬 더 편리해진다.<br>
 
+<br><br>
 
+## SW를 만드는 과정인 코딩 실행 deploy
 ### keyword
 <p><b>#Coding  #Run  #Deploy</p></b>
   
@@ -35,7 +65,9 @@
 - Deploy
   > 모든 작업이 끝난 다음에 최종적으로 사용자(고객)에게 전달하는 행위를 말한다.<br>
 
+<br><br>
 
+## React 개발환경을 설치하고 개발환경을 구축
 ### keyword
 <p><b>#React 개발환경  #개발환경 종류  #npm</p></b>
   
@@ -53,7 +85,9 @@
 - npm
   > 모든 작업이 끝난 다음에 최종적으로 사용자(고객)에게 전달하는 행위를 말한다.<br>
 
+<br><br>
 
+## npm을 이용하여 create-react-app을 설치__npm과 npx의 차이
 ### keyword
 <p><b>#npm  #npx  #create-react-app</p></b>
   
@@ -77,7 +111,9 @@
   > 컴퓨터의 공간을 낭비하지 않는다.<br>
   > 실행할 때마다 다운로드를 새로 받기 때문에 항상 최신상태이다.<br>
 
+<br><br>
 
+## create-react-app을 이용하여 개발환경을 구축
 ### keyword
 <p><b>#개발환경 구축</p></b>
   
@@ -86,7 +122,9 @@
   > 2. 명령어를 입력한다.<br>
   > 명령어 : <b>"create-react-app . "</b><br>
 
+<br><br>
 
+## React에서 제공하는 샘플 웹앱을 실행하고 종료
 ### keyword
 <p><b>#npm run start</p></b>
   
@@ -99,14 +137,99 @@
 
 
 
-# react-Component
+# react_Component
 
+## 디렉토리의 구조 이해 및 파일수정
 ### keyword
-<p><b>#</p></b>
+<p><b>#React  #Component</p></b>
   
-- 양식
-  > 양식<br>
-  > 양식<br>
+- React
+  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
+  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+
+- Component  
+  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
+  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
+  > 유지보수가 훨씬 더 편리해진다.<br>
+
+<br><br>
+
+## CSS를 수정하여 컴포넌트의 디자인을 변경
+### keyword
+<p><b>#React  #Component</p></b>
+  
+- React
+  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
+  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+
+- Component  
+  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
+  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
+  > 유지보수가 훨씬 더 편리해진다.<br>
+
+<br><br>
+
+## deploy 이해_리액트 앱 배포
+### keyword
+<p><b>#React  #Component</p></b>
+  
+- React
+  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
+  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+
+- Component  
+  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
+  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
+  > 유지보수가 훨씬 더 편리해진다.<br>
+
+<br><br>
+
+## 리액트 필요성
+### keyword
+<p><b>#React  #Component</p></b>
+  
+- React
+  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
+  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+
+- Component  
+  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
+  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
+  > 유지보수가 훨씬 더 편리해진다.<br>
+
+<br><br>
+
+## 컴포넌트-만들기_1
+### keyword
+<p><b>#React  #Component</p></b>
+  
+- React
+  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
+  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+
+- Component  
+  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
+  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
+  > 유지보수가 훨씬 더 편리해진다.<br>
+
+<br><br>
+
+## 컴포넌트-만들기_2
+### keyword
+<p><b>#React  #Component</p></b>
+  
+- React
+  > "React" 는 facebook.com의 UI를 더 잘 만들기 위해서 페이스북에서 만든 Javascript UI 라이브러리다.<br>
+  > 사용자 정의 태그를 만들어주는 여러가지 기술 중 하나이다.
+
+- Component  
+  > 리액트에서 사용자가 정의해서 태그를 만드는 것을 <b>사용자 정의 태그</b>라고 하지 않고 <b>컴포넌트</b>라고 부른다.<br>
+  > 가독성을 높일 수 있으며, 재사용성이 높아진다.<br>
+  > 유지보수가 훨씬 더 편리해진다.<br>
+
+<br><br>
+
+
 
 
 <br><br><br><hr>
@@ -116,6 +239,7 @@
 
 # state props
 
+## props 이해
 ### keyword
 <p><b>#props  #리팩토링</p></b>
   
@@ -127,7 +251,9 @@
   > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
   > 내부적으로 훨씬 효율적이다.<br> 
 
+<br><br>
 
+## 컴포넌트를 파일로 쪼개어 정리정돈하기
 ### keyword
 <p><b>#export  #import</p></b>
   
@@ -140,7 +266,9 @@
   > <b>import [컴포넌트 이름] from "./componets/[컴포넌트가 있는 파일이름]";</b><br>
   > 예시 :  import TOC from "./componets/TOC";<br>
 
+<br><br>
 
+## state 소개
 ### keyword
 <p><b>#state  #props</p></b>
   
@@ -153,7 +281,9 @@
   > 사용자의 입장에서 장치는 버튼, 화면을 터치하는 것 같은 이 제품을 조작하는 것을 "User Interface" 라고 부른다. 리액트에서는 "props" 가 사용자가 제품을 조작하는 장치라고 비유할 수 있다.<br>
   > 사용자가 컴포넌트를 사용하는 입장에서 중요한 것으로, "props" 를 제공하여 컴포넌트를 조작할 수 있게 된다.<br>
 
+<br><br>
 
+## state 값을 하위 컴포넌트의 props로 전달
 ### keyword
 <p><b>#constructor  #state  #props</p></b>
   
@@ -175,7 +305,9 @@
 - props
   > "props"의 데이터는 state에서 가져온 것이 된다.<br>
 
+<br><br>
 
+## key 설정 및 자동으로 데이터 변경
 ### keyword
 <p><b>#state  #property  #key</p></b>
   
@@ -211,7 +343,7 @@
 
 <br><br><br><hr>
   
-# react-event
+# react_event
 
 ### keyword
 <p><b>#양식  #양식</p></b>
