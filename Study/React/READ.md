@@ -53,12 +53,24 @@
     - [ui 반영](#ui-반영)
     - [redux 시간여행 & 로깅](#redux-시간여행과-로깅)
     
-8. [](#)
+8. [redux use](#redux-use)
     -
-    - [](#)
-    - [](#)
-    - [](#)
-    - [](#)
+    - [부품화](#부품화)
+    - [store 생성과 state 사용](#store-생성과-state-사용)
+    - [action을 dispatch를 통해서 전달](#action을-dispatch를-통해서-전달)
+    - [subscribe이용 자동 갱신](#subscribe이용-자동-갱신)
+    - [글생성 기능 구현](#글생성-기능-구현)
+    - [글삭제 기능 구현](#글삭제-기능-구현)
+    - [기타](#기타)
+
+9. [react & redux](#react에-redux-사용)
+    -
+    - [redux 없는 react](#redux-없는-react)
+    - [react 컴포넌트 상태연결](#react-컴포넌트-상태연결)
+    - [redux 도입](#redux-도입)
+    - [redux에 종속된 기능 제거](#redux에-종속된-기능-제거)
+    - [container 컴포넌트 도입](#container-컴포넌트-도입)
+    
 
 
 
@@ -513,8 +525,6 @@
 - redux를 쓰지 않을 경우
   > 부품과 부품 사이에 어떤 특별한 관계에 의해서 고유한 특성을 가지고 있는 코드가 있다고 가정했을 때 그리고 부품이 1억개라고 생각했을 때 신경 써야할 코드가 기하급수적으로 늘어난다<br>
 
-<br><br>
-
 
 <br><br><br><hr>
 
@@ -627,24 +637,360 @@
 <p><b>#Redux Dev Tools  #time traveling</p></b>
   
 - Redux Dev Tools
-  > subscribe하기 전의 코드에서는 최초로 한번은 red()를 강제로 호출시켰다.(여기서 red()는 사용자가 만든 함수)<br>
-  > 그 이후에 store.dispatch()함수가 실행되어 state 값이 바뀌는 것처럼 state 값이 바뀔때 마다 red() 함수를 호출하게 하려면 subscribe에 render() 함수를 등록해 놓으면 된다.<br>
-  > 이렇게 등록하면 dispatch가 state 값을 바꾸고 난 다음에 지정한 함수를 호출하도록 약속되어 있다. 따라서 state 값이 바뀔때 마다 red() 함수가 호출된다.<br>
+  > Redux dev Tools를 검색해서 사이트를 들어가면 크롬, firefox에서 하는 법 그리고 독립적으로 진행하는 Electron 등 여러가지 방법들이 있다.<br>
+  > Chrom Web Store로 들어가서 확장 기능을 설치할 수 있다.<br>
+  > 그리고 Basic Store 라고 되어 있는 부분의 코드를 Redux.createStore() 함수 안에 추가한다.<br>
   > ```html
-  > store.subscribe(red);
+  > var store = Redux.createStore(
+  >     reducer,
+  >     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()    
+  > );
   > ``` 
+  > 그 다음에 개발자 도구를 켜보시면 끝에 Redux라는 게 추가되어 있는 것을 확인할 수 있다.<br>
 
 - time traveling
-  > 리덕스가 없을 때의 코드는 서로 강력하게 의존하고 있다. 따라서 어느 한 부분을 갑자기 지워버리면 다른 쪽은 에러를 발생시킨다.<br>
-  > 그리고 만약에 새로운 컴포넌트가 추가되면 기존에 있었던 컴퍼넌트 전체를 업데이트 해야하는 문제가 발생한다.<br>
-  > 리덕스라고 하는 중개자를 통해서 우리가 상태를 중앙 집중적으로 관리 하게 되면 각각의 부품들은 상태가 바뀌었을 때 상태가 바뀌었다는 action을 store에 dispatch해주면 된다.<br>
-  > 그리고 상태가 변함에 따라 자신이 어떻게 변화되는지에 대한 코드를 작성하고 그것을 store에 구독시켜놓으면 state가 바뀔 때마다 통보를 받기 때문에 그 때마다 자신의 모양을 바꿔 줄 수 있게 된다.<br>
-  > 따라서 각 부품들은 다른 부품을 몰라도 되며, 그저 자신의 일에만 집중하면 된다. 코딩을 하는 입장에서도 마찬가지이다.<br>
+  > 시간 여행은 "Redux dev Tools" 를 통해서 사용할 수 있다.<br>
+  > Redux dev Tools라는 것은 리덕스에서 store에게 전달된 action들을 버전관리 하고 있는 것이라고 볼 수 있다.<br>
+  > 뿐만 아니라 버전 관리라고 한다면 <b>이전 버전으로 언제든지 돌아갈 수 있어야 한다.</b><br>
+  > 지금까지 우리 애플리케이션에서 store에게 전달한 action들을 <b>replay 할 수 있다.</b> 다운로드 한 파일을 다시 업로드 해서 <b>이전의 상태를 그대로 복원 할 수 있다.</b><br>
+  > 이를 이용해서 복잡한 애플리케이션에 문제가 생겼을 때 그 문제가 어떠한 맥락 속에서 발생했는지 간편하게 판단할 수 있다.<br>
+  > 리덕스에서 <b>Reducer를 통해 리턴하는 값은 불변해야 한다.</b><br>
+  > 원본에 대해서 변경하면 안 되고 원본을 복제해서 복제한 것을 변경해서 리턴하고 <b>action에 의해서 state가 바뀔 때</b>마다 그 바뀌는 각각의 데이터들은 서로 완전히 <b>독립된 데이터</b>여야 한다.<br>
+  > 애플리케이션을 사용하다보면 어떤 action을 했을 때 간편하게 그에 따른 상태를 보고 싶을 수 있는데, 그때 리덕스는 모든 애플리케이션에서 관리해야 되는 상태가 store에 보관되게 되어 있다. 리덕스는 <b>단일 스토어</b>로, 단 하나의 스토어를 유지한다.<br>
+
+
+<br><br><br><hr>
+
+
+
+
+# redux use
+
+## 부품화
+### keyword
+<p><b>#모듈화,부품화  #가독성  #재사용성</p></b>
+  
+- 모듈화,부품화
+  > 훨씬 더 정리 정돈된 코드를 만들기 위해서 이 부분을 함수로 정리하면 다음과 같다.<br>
+  > ```html
+  > <div id="subject"></div>
+  > <script>
+  > function subject(){
+  >     document.querySelector('#subject').innerHTML = `
+  >     <header>
+  >         <h1>WEB</h1>
+  >         Hello, WEB!
+  >     </header>
+  >     `
+  > }
+  > subject();
+  > </script>
+  > ```
+  > 페이지는 똑같이 보이지만 <b>가독성</b>도 높아지고 <b>재사용</b>할 수 있게 되었다. 이런 것을 <b>"부품화시킨다", "모듈화한다"</b> 고 부른다.<br> 
+
+
+<br><br>
+
+## store 생성과 state 사용
+### keyword
+<p><b>#store  #state</p></b>
+  
+- store
+  > store를 만들 때는 리덕스라는 전역객체의 createStore()라고 하는 함수를 호출한다. 이때 reducer를 꼭 줘야 한다.<br>
+  > ```html
+  > Redux.createStore(reducer);
+  > ```
+  > reducer는 호출될 때 이전의 state값과 호출된 이후인 action값을 입력 값으로 받고 리턴해주는 값은 새로운 state 값이 된다.<br> 
+  > store를 처음 생성하면 최초 1회 action과는 상관 없이 호출되는데 그때 state 값은 undefined이다.<br>
+  > 만약 state 값이 undefined라면 초기값을 세팅한다.<br>
+
+- state
+  > reducer에 초기값으로 contents라고 하는 property가 있는 state 값이 잘 만들어졌는지 확인하려면 콘솔창에 store.getState()를 통해서 확인할 수 있다.<br>
+  > store에 있는 정보를 바탕으로 가져오려면 getState()를 사용한다.<br>
+  > 각각의 구성 요소가 store에서 state를 가져오고 그 state값을 기반으로 html 코드를 생성하면 state값에 따라서 만들어지는 웹 페이지를 생성할 수 있게 된다.<br>
+  > ```html
+  > function TOC(){
+  >     var state = store.getState();
+  >     var i = 0;
+  >     var liTags = '';
+  >     while(i<state.contents.length){
+  >         liTags = liTags + `
+  >             <li>
+  >                 <a href="${state.contents[i].id}">${state.contents[i].title}</a>
+  >             </li>`;
+  >         i = i + 1;
+  >     }
+  >     document.querySelector('#toc').innerHTML = `
+  >     <nav>
+  >         <ol>${liTags}</ol>
+  >     </nav>
+  >     `;
+  > }
+  > ```
+
+
+<br><br>
+
+## action을 dispatch를 통해서 전달
+### keyword
+<p><b>#action  #dispatch  #event.preventDefault()</p></b>
+  
+- action
+  > action을 발생시키면 그 action이 dispatch를 통해서 reducer를 실행시키고 reducer가 state의 새로운 값을 리턴한다.<br>
+  > 그리고 state 값이 바뀌면 subscribe 하는 함수들을 호출해 주는 것을 통해서 UI가 업데이트가 된다.<br>
+  > action을 만들 때 action 에서 필수적인 property는 "type"이다.<br> 
+
+- dispatch
+  > store의 dispatch에 만든 action 정보를 넘겨준다. 그러면 store는 reducer를 호출한다.<br>
+  > 항상 state 값을 리턴할 때는 복제된 것을 리턴해야 된다. Object.assign() 함수를 통해 복제할 수있다.<br> 
+
+- event.preventDefault()
+  > event.preventDefault()는 이벤트가 발생했을 때 그 이벤트를 발생시킨 태그의 기본적인 동작을 못하게 방지하는 함수이다.<br>
+
+<br><br>
+
+## subscribe이용 자동 갱신
+### keyword
+<p><b>#subscribe  #Read 기능 구현</p></b>
+  
+- subscribe
+  > ```html
+  > store.subscribe(article);
+  > ```
+
+- Read 기능 구현
+  > ```html
+  > function article(){
+  >     var state = store.getState();
+  >     var i = 0;
+  >     var aTitle, aDesc;
+  >     while(i < state.contents.length){
+  >         if(state.contents[i].id === state.selcted_id) {
+  >             aTitle = state.contents[i].title;
+  >             aDesc = state.contents[i].desc;
+  >             break;
+  >         }
+  >         i = i + 1;
+  >     }
+  >     document.querySelector('#content').innerHTML = `
+  >     <article>
+  >         <h2>${aTitle}</h2>
+  >         ${aDesc}
+  >     </article>
+  >     `
+  > }
+  > ```
 
 
 <br><br>
 
 
+
+
+## 글생성 기능 구현
+### keyword
+<p><b>#create  #concat()</p></b>
+  
+- create
+  > ```html
+  > function article(){
+  >     var state = store.getState();
+  >     if(state.mode === 'create'){
+  >         document.querySelector('#content').innerHTML = `
+  >         <article>
+  >             <form onsubmit="
+  >                 event.preventDefault();
+  >             ">
+  >                 <p>
+  >                     <input type="text" name="title" placeholder="title">
+  >                 </p>
+  >                 <p>
+  >                     <textarea name="desc" placeholder="description"></textarea>
+  >                 </p>
+  >                 <p>
+  >                     <input type="submit">
+  >                 </p>
+  >             </form>
+  >         </article>
+  >         `
+  >     } else if(state.mode === 'read'){
+  >         var i = 0;
+  >         var aTitle, aDesc;
+  >         while(i < state.contents.length){
+  >             if(state.contents[i].id === state.selcted_id) {
+  >                 aTitle = state.contents[i].title;
+  >                 aDesc = state.contents[i].desc;
+  >                 break;
+  >             }
+  >             i = i + 1;
+  >         }
+  >     document.querySelector('#content').innerHTML = `
+  >     <article>
+  >         <h2>${aTitle}</h2>
+  >         ${aDesc}
+  >     </article>
+  >     `
+  > }
+  > ```
+
+- concat()
+  > onsubmit 이벤트가 발생했을 때 form 안에 있는 name이 title인 태그의 값을 가져와야 한다.<br>
+  > ```html
+  > <form onsubmit="
+  >    event.preventDefault();
+  >    var _title = this.title.value;
+  >    var _desc = this.desc.value;
+  >    store.dispatch({
+  >       type:'CREATE',
+  >       title:_title,
+  >       desc:_desc
+  >    })
+  > ">
+  > ```
+  > state.contents 배열을 새롭게 복제한다. concat() 을 사용해 편하게 복제할 수 있다.<br>
+  > ```html
+  > function reducer(state, action){
+  >    // .. 생략
+  >     var newState;
+  >     if(action.type === 'SELECT'){
+  >         newState = Object.assign({}, state, {selcted_id:action.id});
+  >     } else if(action.type === 'CREATE'){
+  >         var newContents = state.contents.concat();
+  >         newContents.push({id:newMaxId, title:action.title, desc:action.desc});
+  >     }
+  >     console.log(action, state, newState);
+  >     return newState;
+  > }
+  > ```
+
+<br><br>
+
+## 글삭제 기능 구현
+### keyword
+<p><b>#delete</p></b>
+  
+- delete
+  > reducer() 에서 action.type이 'DELETE'인 경우의 코드<br>
+  > ```html
+  > } else if(action.type === 'DELETE'){
+  >     var newContents = [];
+  >     var i = 0;
+  >     while(i < state.contents.length){
+  >         if(state.selcted_id !== state.contents[i].id){
+  >             newContents.push(
+  >                 state.contents[i]
+  >             );
+  >         }
+  >         i = i + 1;
+  >     }
+  >     newState = Object.assign({},state, {
+  >         contents:newContents,
+  >     })
+  > } 
+  > ```
+
+
+<br><br>
+
+## 기타
+### keyword
+<p><b>#React  #Redux Ecosystem  #immutability</p></b>
+  
+- React
+  > 리액트를 위해서 리덕스가 시작되었다고 할 수 있다.<br>
+  > 물론 리덕스가 발전하는 과정에서 점차 리액트로부터 독립해서 오늘날 리덕스는 독립적인 상태 관리 저장소로 발전하고 있다.<br>
+
+- Redux Ecosystem
+  > 리덕스 또 다른 장점은 준수한 생태계다.<br>
+  > 이런 도구를 여러분이 설치하면 직접 구현할 때의 노력없이 그냥 이런 기능을 사용할 수 있다. 이런 일종의 플러그 인들을 리덕스 커뮤니티에서는 미들웨어라고 한다.<br>
+  > <br> 
+
+- immutability
+  > reducer는 새로운 상태를 만드는 것이다. reducer가 새로운 상태를 만들 때는 이전의 상태인 원본을 직접 바꾸지 않고 새로운 복제본을 만들어서 복제본을 수정한 다음에 그것을 새로운 상태로 만들어야 된다.(immutable-js 라이브러리를 이용 추천)<br> 
+  > 각각의 상태를 이렇게 완전히 독립적으로 유지하면 얘기치 못한 변화로 상태 데이터가 변경되는 사고를 막을 수 있다.<br>
+  > 각각의 상태가 독립적 이기 때문에 이 상태들을 버전 관리 하면 아주 쉽게 UNDO와 REDO, 시간여행, Hot module Reloading 과 같은 고급 작업을 쉽게 구현할 수 있다.<br> 
+
+
+<br><br><br><hr>
+
+
+
+# react에 redux 사용
+
+## redux 없는 react
+### keyword
+<p><b>#  #</p></b>
+  
+- 
+  > <br>
+  > <br>
+
+-  
+  > <br>
+  > <br>
+  > <br>
+
+<br><br>
+
+## react 컴포넌트 상태연결
+### keyword
+<p><b>#  #</p></b>
+  
+- 
+  > <br>
+  > <br>
+
+-  
+  > <br>
+  > <br>
+  > <br>
+
+<br><br>
+
+## redux 도입
+### keyword
+<p><b>#  #</p></b>
+  
+- 
+  > <br>
+  > <br>
+
+-  
+  > <br>
+  > <br>
+  > <br>
+
+<br><br>
+
+## redux에 종속된 기능 제거
+### keyword
+<p><b>#  #</p></b>
+  
+- 
+  > <br>
+  > <br>
+
+-  
+  > <br>
+  > <br>
+  > <br>
+
+<br><br>
+
+## container 컴포넌트 도입
+### keyword
+<p><b>#  #</p></b>
+  
+- 
+  > <br>
+  > <br>
+
+-  
+  > <br>
+  > <br>
+  > <br>
+
+<br><br>
 
 
 
