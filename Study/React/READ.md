@@ -43,12 +43,22 @@
     - [redux 소개](#redux-소개)
     - [store & render & subscribe](#store-render-subscribe)
     - [action & reducer & dispatcher & render](#action-reducer-dispatcher-render)
+    - [redux 사용 이유](#redux의-장점)
+    - [redux가 없다면](#redux-사용-이유)
     
-7. [redux basic](#redux_basic)
+7. [redux basic](#redux-basic)
     -
-    -
+    - [store 생성](#store-생성)
+    - [reducer와 action이용 새로운 state 만들기](#reducer와-action이용-새로운-state-값-생성)
+    - [ui 반영](#ui-반영)
+    - [redux 시간여행 & 로깅](#redux-시간여행과-로깅)
     
-
+8. [](#)
+    -
+    - [](#)
+    - [](#)
+    - [](#)
+    - [](#)
 
 
 
@@ -482,6 +492,155 @@
 - render
   > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
   > 내부적으로 훨씬 효율적이다.<br>
+
+<br><br>
+
+## redux의 장점
+### keyword
+<p><b>#redux를 쓰면 좋은 이유</p></b>
+  
+- redux를 쓰면 좋은 이유
+  > 고려해야 할 로직 수가 획기적으로 줄어든다. 따라서 훨씬 더 애플리케이션이 단순해지는 효과를 볼 수 있다.<br>
+  > 집중적인 data store를 통해서 애플리케이션을 쉽게 바로 개발할 수 있다.<br>
+  > 리덕스만이 가지고 있는 시간 여행을 할 수 있다.<br> 
+
+<br><br>
+
+## redux 사용 이유
+### keyword
+<p><b>#redux를 쓰지 않을 경우</p></b>
+  
+- redux를 쓰지 않을 경우
+  > 부품과 부품 사이에 어떤 특별한 관계에 의해서 고유한 특성을 가지고 있는 코드가 있다고 가정했을 때 그리고 부품이 1억개라고 생각했을 때 신경 써야할 코드가 기하급수적으로 늘어난다<br>
+
+<br><br>
+
+
+<br><br><br><hr>
+
+
+
+
+# redux basic
+
+## store 생성
+### keyword
+<p><b>#redux 객체  #createStore()  #reducer</p></b>
+  
+- redux 객체
+  > redux 설치방법<br>
+  > ```npm install --save redux```<br>
+  > 또는<br>
+  > ```html
+  > <head>
+  >      <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.js"></script>
+  > </head>
+  > ```
+  > 리덕스를 이용한다는 것은 결국 <b>store를 만들어서 store의 상태를 바꾸는 것</b>이다.<br> 
+
+- createStore()
+  > redux 객체가 생기면 <b>Redux.createStore(reducer)</b>라고 하는 api를 사용할 수 있게 된다.<br>
+  > ```html
+  > function reducer(state, action){
+  >     if(state === undefined){
+  >         return {color:'yellow'}
+  >     }
+  > }
+  > var store = Redux.createStore(reducer);
+  > function red() {
+  >     var state = store.getState();
+  >     //생략
+  > }
+  > ``` 
+
+- reducer
+  > reducer가 하는 역할은 dispatcher에서 action이 들어오게 되면 reducer가 action 값과 기존에 있었던 state의 값을 참조해서 <b>새로운 state 값을 만들어주는 것</b>이다.<br>
+  > 초기값으로 reducer는 state와 action을 받는데 state의 값이 아직 세팅되지 않았으면 state는 <b>undefined</b>이다.<br>
+  > state값이 정의되지 않은 상태에서 reducer가 호출된다는 것은 최초의 <b>초기화 단계</b>라는 뜻이다.<br>
+  > 그때 store의 <b>초기 state 값</b>이 <b>리턴되는 값</b>이며, <b>getState()</b> 함수를 통해 store에 저장된 state 값을 가져올 수 있다.<br>
+
+<br><br>
+
+## reducer와 action이용 새로운 state 값 생성
+### keyword
+<p><b>#Object.assign()  #dispatch()  #reducer  #state  #action</p></b>
+  
+- Object.assign()
+  > 객체를 복제할 때는 Object.assign() 이라고 하는 명령을 이용한다.<br>
+  > 첫 번째 인자로 반드시 기 빈 객체를 준다. 두 번째 인자로는 이 빈 객체의 복제할 속성을 가진 객체를 준다<br>
+  > 첫번째 인자로 빈 객체를 줘야하는 이유는 Object.assign() 함수의 리턴 값은 <b>첫 번째 인자인 객체</b>이기 때문이다.<br>
+  > ```html
+  > function reducer(state, action){
+  >     console.log(state, action);
+  >     if(state === undefined){
+  >         return {color:'yellow'}
+  >     }
+  >     var newState;
+  >     if(action.type === 'CHANGE_COLOR'){
+  >         newState = Object.assign({}, state, {color:'red'});
+  >     }
+  >     return newState;
+  > }
+  > ```
+
+- dispatch()
+  > store에 dispatch()를 호출하면 dispatch는 store를 생성할 때 제공한 reducer() 함수를 호출하도록 약속되어 있다.<br>
+  > 그때 이전의 state 값과 전달된 action 값을 인자로 전달한다.<br> 
+  > 예시에서는 {type:'CHANGE_COLOR', color : 'red'} 이 action 값이다.<br>
+  > ```html
+  > <input type="button" value="fire" onclick="
+  >     store.dispatch({type:'CHANGE_COLOR', color:action.color});
+  > ">
+  > ```
+
+- reducer
+  > reducer() 함수가 하는 역할은 action의 값과 이전의 state 값을 이용해서 store의 <b>새로운 state 값을 만든다</b>는 것이 핵심이다<br>
+  > 새롭게 리턴되는 값은 원본을 바꾸는 것이 아니라 이전에 있었던 값을 복제한 결과를 리턴하는 것이다.<br>
+  > 리덕스를 통해 사용하는 여러가지 효용들을 최대한으로 활용할 수 있게 된다.<br>
+
+<br><br>
+
+## ui 반영
+### keyword
+<p><b>#subscribe  #state</p></b>
+  
+- subscribe
+  > subscribe하기 전의 코드에서는 최초로 한번은 red()를 강제로 호출시켰다.(여기서 red()는 사용자가 만든 함수)<br>
+  > 그 이후에 store.dispatch()함수가 실행되어 state 값이 바뀌는 것처럼 state 값이 바뀔때 마다 red() 함수를 호출하게 하려면 subscribe에 render() 함수를 등록해 놓으면 된다.<br>
+  > 이렇게 등록하면 dispatch가 state 값을 바꾸고 난 다음에 지정한 함수를 호출하도록 약속되어 있다. 따라서 state 값이 바뀔때 마다 red() 함수가 호출된다.<br>
+  > ```html
+  > store.subscribe(red);
+  > ``` 
+
+- state
+  > 리덕스가 없을 때의 코드는 서로 강력하게 의존하고 있다. 따라서 어느 한 부분을 갑자기 지워버리면 다른 쪽은 에러를 발생시킨다.<br>
+  > 그리고 만약에 새로운 컴포넌트가 추가되면 기존에 있었던 컴퍼넌트 전체를 업데이트 해야하는 문제가 발생한다.<br>
+  > 리덕스라고 하는 중개자를 통해서 우리가 상태를 중앙 집중적으로 관리 하게 되면 각각의 부품들은 상태가 바뀌었을 때 상태가 바뀌었다는 action을 store에 dispatch해주면 된다.<br>
+  > 그리고 상태가 변함에 따라 자신이 어떻게 변화되는지에 대한 코드를 작성하고 그것을 store에 구독시켜놓으면 state가 바뀔 때마다 통보를 받기 때문에 그 때마다 자신의 모양을 바꿔 줄 수 있게 된다.<br>
+  > 따라서 각 부품들은 다른 부품을 몰라도 되며, 그저 자신의 일에만 집중하면 된다. 코딩을 하는 입장에서도 마찬가지이다.<br>
+
+
+<br><br>
+
+## redux 시간여행과 로깅
+### keyword
+<p><b>#Redux Dev Tools  #time traveling</p></b>
+  
+- Redux Dev Tools
+  > subscribe하기 전의 코드에서는 최초로 한번은 red()를 강제로 호출시켰다.(여기서 red()는 사용자가 만든 함수)<br>
+  > 그 이후에 store.dispatch()함수가 실행되어 state 값이 바뀌는 것처럼 state 값이 바뀔때 마다 red() 함수를 호출하게 하려면 subscribe에 render() 함수를 등록해 놓으면 된다.<br>
+  > 이렇게 등록하면 dispatch가 state 값을 바꾸고 난 다음에 지정한 함수를 호출하도록 약속되어 있다. 따라서 state 값이 바뀔때 마다 red() 함수가 호출된다.<br>
+  > ```html
+  > store.subscribe(red);
+  > ``` 
+
+- time traveling
+  > 리덕스가 없을 때의 코드는 서로 강력하게 의존하고 있다. 따라서 어느 한 부분을 갑자기 지워버리면 다른 쪽은 에러를 발생시킨다.<br>
+  > 그리고 만약에 새로운 컴포넌트가 추가되면 기존에 있었던 컴퍼넌트 전체를 업데이트 해야하는 문제가 발생한다.<br>
+  > 리덕스라고 하는 중개자를 통해서 우리가 상태를 중앙 집중적으로 관리 하게 되면 각각의 부품들은 상태가 바뀌었을 때 상태가 바뀌었다는 action을 store에 dispatch해주면 된다.<br>
+  > 그리고 상태가 변함에 따라 자신이 어떻게 변화되는지에 대한 코드를 작성하고 그것을 store에 구독시켜놓으면 state가 바뀔 때마다 통보를 받기 때문에 그 때마다 자신의 모양을 바꿔 줄 수 있게 된다.<br>
+  > 따라서 각 부품들은 다른 부품을 몰라도 되며, 그저 자신의 일에만 집중하면 된다. 코딩을 하는 입장에서도 마찬가지이다.<br>
+
 
 <br><br>
 
