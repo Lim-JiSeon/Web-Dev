@@ -1,5 +1,12 @@
 # React Study
 
+## React 와 Redux
+<b>리액트</b> : 사용자 정의 태그 즉 컴포넌트를 만들어서 체계적이고 잘 정돈된 애플리케이션을 만들게 해주는 기술<br>
+<b>리덕스</b> : 상태를 중앙에서 관리하는 것을 통해서 데이터가 예측하지 않은 대로 변형되는 가능성을 낮춰주는 기술<br>
+즉 리액트나 리덕스는 개발의 복잡성을 낮춰주는 기술<br>
+<b>React-Redux</b> : 애플리케이션의 복잡성을 획기적으로 낮출 수 있으며, 아주 적은 노력으로 리액트와 리덕스를 연동할 수 있고, 리덕스가 가지고 있는 시간여행 도구인 "Hot Reload" 와 같은 도구들도 사용 가능<br>
+
+
 ## Content
 1. [react-app](#create-react-app)
     - 
@@ -919,37 +926,142 @@
 
 ## redux 없는 react
 ### keyword
-<p><b>#  #</p></b>
+<p><b>#리액트 개발환경  #create-react-app  #import  #export</p></b>
   
-- 
-  > <br>
-  > <br>
+<img width="845" alt="image" src="https://user-images.githubusercontent.com/83554018/183241012-816de873-851a-496e-96e5-e865533735e7.png">
 
--  
-  > <br>
-  > <br>
-  > <br>
+```html
+import React, {Component} from 'react';
+
+
+//AddNumberRoot 생성
+class AddNumberRoot extends Component{
+    render(){
+      return (
+        <div>
+          <h1>Add Number Root</h1>
+        </div>
+      )
+    }
+  } 
+
+function App() {
+  return (
+    <div className="App">
+       Hello World
+      //자식으로 추가
+      <AddNumberRoot></AddNumberRoot>
+    </div>
+  );
+}
+
+class AddNumber extends Component {
+    render() {
+      return (
+        <div>
+          <h1>Add Number</h1>
+          <input type="button" value="+"></input>
+          <input type="text" value="0"></input>
+        </div>
+      )
+    }
+  }
+
+//AddNumberRoot  추가 내용
+      return (
+        <div>
+          <h1>Add Number Root</h1>
+          //자식으로 추가
+          <AddNumber></AddNumber>
+        </div>
+      )
+
+<input type="text" value="0" readOnly></input>
+
+```
+
+```css
+div{
+  border:5px solid #764abc;
+  margin:10px;
+  color:#764abc;
+  padding:10px;
+} 
+```
+
 
 <br><br>
 
 ## react 컴포넌트 상태연결
 ### keyword
-<p><b>#  #</p></b>
-  
-- 
-  > <br>
-  > <br>
+<p><b>#state  #props  #onClick</p></b>
 
--  
-  > <br>
-  > <br>
-  > <br>
+
+- 상위 컴퍼넌트에서 하위 컴퍼넌트로 -> props 이용<br>
+    ```javascript
+    class App extends Component {
+      state = {number:0}
+      render(){
+        return (
+          <div className="App">
+             <h1>Root</h1>
+             <AddNumberRoot></AddNumberRoot>
+             <DisplayNumberRoot></DisplayNumberRoot>
+          </div>
+        );  
+      }
+    }
+
+    //App..jsx 코드 변경
+    <DisplayNumberRoot number={this.state.number}></DisplayNumberRoot>
+
+    //DisplayNumberRoot.jsx 코드 변경
+    <DisplayNumber number={this.props.number}></DisplayNumber>
+
+    <input type="text" value={this.props.number} readOnly></input>
+
+    ```
+- 하위 컴퍼넌트에서 상위 컴퍼넌트로 -> 이벤트 이용<br>
+    ```javascript
+    export default class AddNumber extends Component {
+    state = {size:1}
+    render() {
+      return (
+        <div>
+          <h1>Add Number</h1>
+          <input type="button" value="+"></input>
+          <input type="text" value={this.state.size} onChange={function(e){
+            this.setState({size : e.target.value});
+          }.bind(this)}></input>
+        </div>
+      )
+    }
+    
+    
+    <input type="button" value="+" onClick={function(){
+            this.props.onClick(this.state.size);
+    }.bind(this)}></input>
+    
+    
+    <AddNumber onClick={function(size){
+        this.props.onClick(size);
+    }.bind(this)}></AddNumber>
+    
+    <AddNumberRoot onClick={function(size){
+        this.setState({number:this.state.number + size});
+    }.bind(this)}></AddNumberRoot>
+    
+    //AddNumber.jsx
+ 
+    this.setState({size:Number(e.target.value)});
+    ```
+
 
 <br><br>
 
 ## redux 도입
 ### keyword
-<p><b>#  #</p></b>
+<p><b>#redux  #store  #상태 관리</p></b>
   
 - 
   > <br>
