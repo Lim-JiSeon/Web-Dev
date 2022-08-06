@@ -76,9 +76,12 @@
     - [react 컴포넌트 상태연결](#react-컴포넌트-상태연결)
     - [redux 도입](#redux-도입)
     - [redux에 종속된 기능 제거](#redux에-종속된-기능-제거)
-    - [container 컴포넌트 도입](#container-컴포넌트-도입)
     
-
+10. [react-redux](#react-redux)
+    -
+    - [connect & provider](#connect-provider)
+    - [mapStateToProps](#mapstatetoprops)
+    - [mapDispatchToProps](#mapdispatchtoprops)
 
 
 # create-react-app
@@ -1063,47 +1066,178 @@ div{
 ### keyword
 <p><b>#redux  #store  #상태 관리</p></b>
   
-- 
-  > <br>
-  > <br>
+- 리덕스를 패키지에 설치하기<br>
+    ``` npm install redux ```
+- createStore라는 api를 로드하기<br>
+    ```javascript
+    import {createStore} from 'redux';
+    
+    
+    export default createStore(function(state, action){  
+        if(state === undefined){
+            return {number:0}
+        }
+        if(action.type === 'INCREMENT'){
+            return {...state, number:state.number + action.size}
+        }
+        return state;
+    }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+    ```
+- store의 state의 값 바꾸기<br>
+    ```javascript
+    import store from "../store";
+    
+    store.dispatch({type:'INCREMENT', size:this.state.size});
+    
+    
+    
+    import store from "../store";
+    
+    export default class DisplayNumber extends Component {
+      state = {number:store.getState().number}
+        render() {
+          return (
+            <div>
+              <h1>Display Number</h1>
+              <input type="text" value={this.state.number} readOnly></input>
+            </div>
+          )
+        }
+    }
 
--  
-  > <br>
-  > <br>
-  > <br>
+
+     constructor(props){
+        super(props);
+        store.subscribe(function(){
+          this.setState({number:store.getState().number});
+        }.bind(this));
+      }
+    ```
+
 
 <br><br>
 
 ## redux에 종속된 기능 제거
 ### keyword
-<p><b>#  #</p></b>
+<p><b>#Container  #Presentational </p></b>
   
-- 
-  > <br>
-  > <br>
+- Container
+  > <b><b>Container 컴포넌트</b> : AddNumber 컴퍼넌트를 감싸서 <b>리덕스와 관련된 store와 관련된 작업을 처리하는 컴포넌트</b><br>
+  > 리덕스의 store를 사용하므로 우리 애플리케이션이 사용하고 있는 상태에 의존하고 있는데 이렇게 바뀌면서 재사용 가능한 컴포넌트가 아니게 되는 문제를 해결하기 위한 것이다.<br>
+  > 즉 우리 애플리케이션과 종속되는 작업은 Container 컴포넌트인 AddNumber가 처리하고, 기존에 있었던 AddNumber라는 컴퍼넌트는 화면에 표시하는 것에 집중하는 Presentational 컴퍼넌트로써 다시 옛날의 역할로 돌아가게 되는 것이다.<br>
 
--  
-  > <br>
-  > <br>
-  > <br>
+- Presentational
+  > <b>Presentational 컴포넌트</b> : 기존에 있었던 AddNumber 컴포넌트<br>
+  > 해결방법은 <b>wrapping</b>으로, AddNumber 컴포넌트를 감싸는 새로운 컴포넌트를 만드는 것을 통해 해결할 수 있다.<br>
+  > 결과적으로는 중간에 Anonymous 라고 하는 방금 생성한 컴포넌트가 중간에 추가된다.<br>
+  > 이렇게 Container 컴퍼넌트를 만들어서 Container 컴포넌트가 <b>리덕스랑 상호 작용</b>하게 만들고, 그에 따라 components 폴더 밑의 AddNumber 컴포넌트는 <b>부품으로써 가치</b>가 있도록 다시 되돌아오게 되었다.<br>
 
-<br><br>
+    
+    
+    
+<br><br><br><hr>
 
-## container 컴포넌트 도입
+
+
+
+# react-redux
+
+    
+## connect provider
 ### keyword
-<p><b>#  #</p></b>
+<p><b>#Provider  #connect</p></b>
   
-- 
-  > <br>
-  > <br>
+- Provider
+  > react-redux 설치<br>
+  > ``` npm install react-redux ```<br>
+  > React-Redux에서는 애플리케이션의 최상위 컴퍼넌트 위에 store를 한번만 넣어서 공급할 수 있다.<br> 
+  > 우리 애플리케이션 에서는 index.js가 최상위 Root이고 여기에 store를 공급하면 된다. <APP>이라는 컴퍼넌트의 상위 컴퍼넌트인 React-Redux를 통해 Provider를 import 한다.<br>
+  > ```javascript
+  > import {Provider} from 'react-redux';
+  > import store from './store';
+  >
+  >
+  > ReactDOM.render(
+  >     <Provider store={store}>
+  >         <App />
+  >     </Provider>
+  > , document.getElementById('root'));
+  > ```
+  > Provider 컴퍼넌트 하위에 있는 모든 컴포넌트들은 import를 시키지 않아도 Redux store에 접근할 수 있게 된다.<br>
 
--  
-  > <br>
-  > <br>
-  > <br>
+- connect
+  > connect()()를 사용하는데 괄호가 두번 나오는 것은 connect()()를 실행하면 그 리턴 값이 함수이고, 그 리턴된 함수를 다시 실행하는 것을 통해서 만들어진 값을 export한다.<br>
+  > ```javascript
+  > import {connect} from 'react-redux';
+  > export default connect()(DisplayNumber);
+  > ```
+  > 이 리턴 값을 통해 우리가 수동으로 했었던 래핑 컴퍼넌트를 만드는 것과 똑같은 wrapping된 컴포넌트가 리턴되게 된다.<br> 
+
 
 <br><br>
 
+## mapStateToProps
+### keyword
+<p><b>#connect  #mapStateToProps </p></b>
+  
+- connect
+  > conncet 함수에 첫 번째 인자로는 <b>mapStateToProps</b>가 오고, 두 번째 인자로는 <b>mapDispatchToProps</b>가 온다고 되어 있다.<br>
+  > connect 함수는 인자가 없을 수도 있고, 인자가 하나만 있다면 그것은 mapStateToProps 가 된다.<br> 
+
+- mapStateToProps
+  > 리덕스 state를 리액트의 props로  연결시켜주는 역할을 하는 것이 첫 번째 함수가 하는 일이다.(<b>mapReduxStateToReactProps</b>)<br>
+  > 두번째 인자는 리덕스에 dispatch를 리액트의 props로 연결해 준다는 뜻의 함수이다.(<b>mapReduxDispatchToReactProps</b>)<br> 
+  > mapReduxStateToReactProps() : 우리가 리덕스의 store에 subscribe()라는 것을 통해서 리덕스에 어떤 변화가 생겼을 때  그 값을 state number 값으로 주면 state number 값이 바뀔때 마다 setState() 에서 render()가 실행되면서 state값이 갱신되는 작업을 해주는 함수<br>
+  > 리덕스에서 store 값이 변경될 때마다 mapReduxStateToReactProps() 함수가 호출되도록 약속되어 있다.<br>
+  > props에 state준 것과 구독한 것 그리고 초기화 한 것을 한방에 해주는 것과 똑같은 의미를 갖게 된다.<br>
+  > ```javascript
+  > function mapReduxStateToReactProps(state){
+  >     return {
+  >         number:state.number
+  >     }
+  > }
+  > function mapReduxDispatchToReactProps(){
+  >     return {}
+  > }
+  > ```
+  > mapStateToProps 함수는 어떤 상태를 props로 주입하는 역할을 하는 것이다.<br>
+
+<br><br>
+
+## mapDispatchToProps
+### keyword
+<p><b>#mapDispatchToProps</p></b>
+  
+- mapDispatchToProps
+  > 첫 번째 인자는 없어도 되므로 null로 설정한다.<br>
+  > ```javascript
+  > function mapDispatchToProps(dispatch){
+  >     return {
+  >         onClick:function(size){
+  >             dispatch({type:'INCREMENT', size:size});
+  >         }
+  >     }
+  > }
+  > export default connect(null, mapDispatchToProps)(AddNumber);
+  > ```
+  > 두번째 인자로 mapReduxDispatchToProps 라고 하는 메소드를 만들고 리턴 값은 객체의 형태로 전달한다.<br> 
+  > React-Redux가 제공하는 서비스는 mapReduxDispatchToProps가 호출될 때 첫번째 인자로 store.dispatch 라는 API를 공급해준다. 이 API인 dispatch() 함수를 호출하면 된다. 실행시켜보면 정상적으로 dispatch가 실행이 되는 것을 확인할 수 있다.<br>
+  > 정리해보면 connect 라고 하는 API는 2번 호출이 되야 하는데 첫 번째 호출할 때는 인자가 2개이다.<br>
+  > 첫번째 인자는 리덕스 store의 state를 리액트 props 로 전달하는 정보를 담은 함수이고, 두 번째 인자는 리덕스의 dispatch를 리액트 컴퍼넌트의 props로 연결시켜주는 정보를 담고 있는 함수를 만들어서 공급해 주면 나머지 복잡한  작업들은 리덕스가 대신해서 알아서 해준다는 것이다.<br>
+  > mapDispatchToProps 함수는 이벤트를 props로 전달하는 역할을 하는 것이다.<br>
+
+- componentDidMount()와 componentWillUnMount()
+  > componentDidMount()는 이 컴포넌트가 실제로 적용됐을 때 호출되도록 약속되어 있는 메소드<br>
+  > componentWillUnMount()는 컴포넌트가 제거될 때 호출되도록 약속되어 있는 메소드<br>
+  > 즉 컴퍼넌트가 적용될 때 store에 subscribe시키는 것이며, handleChange를 인자로 준다.<br>
+  > handleChange는 컴퍼넌트를 강제로 업데이트시켜 render 메소드가 호출 되도록 하는 코드이다.<br>
+  > connect API는 우리의 불편한  반복적인 작업을 많이 줄여주고, 우리가 등록해놓은 props에 대해서만 실제로 구독하게 되기 때문에 불필요한 render함수의 호출이 줄어들고, shouldComponentUpdate를 통해서 수동으로 해야 될 일도 리덕스가 대신 해주기 때문에 더 적은 코드로 더 높은 퍼포먼스에 도전할 수 있게 된다는 것들이 우리가 얻을 수 있는 효과이다.<br>
+
+
+
+
+<br><br>
 
 
 
