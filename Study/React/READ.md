@@ -31,7 +31,24 @@
 
 
 4. [react-event](#react_event)
+    -
+    -
+
+5. [react-use](#react_use)
+    -
+    -
+
+6. [redux](#redux)
     - 
+    - [redux 소개](#redux-소개)
+    - [store & render & subscribe](#store-render-subscribe)
+    - [action & reducer & dispatcher & render](#action-reducer-dispatcher-render)
+    
+7. [redux basic](#redux_basic)
+    -
+    -
+    
+
 
 
 
@@ -394,6 +411,79 @@
   > 양식
 - 양식
   > 양식
+
+
+
+
+    
+<br><br><br><hr>
+
+
+
+
+# redux
+
+## redux 소개
+### keyword
+<p><b>#redux소개  #redux특징 #redux장점</p></b>
+  
+- redux소개
+  > HTML에서 속성이라고 하는 것을 리액트에서는 <b>"props"</b> 라고 한다.<br>
+  > 약속된 jsx의 기호는 <b>{this.props.title}</b> 이다.<br> 
+
+- redux특징
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br> 
+
+- redux장점
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br> 
+
+<br><br>
+
+## store render subscribe
+### keyword
+<p><b>#store  #render #subscribe #state</p></b>
+  
+- store
+  > HTML에서 속성이라고 하는 것을 리액트에서는 <b>"props"</b> 라고 한다.<br>
+  > 약속된 jsx의 기호는 <b>{this.props.title}</b> 이다.<br> 
+
+- render
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br> 
+
+- subscribe
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br> 
+
+- state
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br>
+
+<br><br>
+
+## action reducer dispatcher render
+### keyword
+<p><b>#action  #reducer #dispatcher #render</p></b>
+  
+- action
+  > HTML에서 속성이라고 하는 것을 리액트에서는 <b>"props"</b> 라고 한다.<br>
+  > 약속된 jsx의 기호는 <b>{this.props.title}</b> 이다.<br> 
+
+- reducer
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br> 
+
+- dispatcher
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br> 
+
+- render
+  > props의 입력 값에 따라 출력값이 달라지도록 하는 것을 말한다.<br>
+  > 내부적으로 훨씬 효율적이다.<br>
+
+<br><br>
 
 
 
