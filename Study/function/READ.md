@@ -3,6 +3,7 @@
 ## 목록
 1. [스킵 메뉴](#스킵-메뉴)
 2. [헤더 메뉴](#헤더-메뉴)
+3. [웹 폰트](#웹-폰트)
 
 
 ### 스킵 메뉴
@@ -28,3 +29,25 @@
   .header .header-icon {}
 </style>
 ```
+
+### 웹 폰트
+<img width="1277" alt="image" src="https://user-images.githubusercontent.com/83554018/183357418-3b26dd8c-8055-4b0e-8f03-d4290c8330f7.png">
+
+```html
+<head> 
+<!-- 웹 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+</head>
+```
+```css
+/* 폰트 초기화 */
+body, input, textarea, select, button, table {
+    font-family:'Nanum Gothic', AppleSDGothicNeo-Regular,'Malgun Gothic','맑은 고딕',dotum,'돋움',sans-serif; 
+    color: #222; font-size: 13px; line-height: 1.5;}
+```
+
+
+
+
+
+
