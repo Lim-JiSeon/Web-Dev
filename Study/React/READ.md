@@ -1,4 +1,4 @@
-# React Study
+# React & Redux Study
 
 ## React 와 Redux
 <b>리액트</b> : 사용자 정의 태그 즉 컴포넌트를 만들어서 체계적이고 잘 정돈된 애플리케이션을 만들게 해주는 기술<br>
